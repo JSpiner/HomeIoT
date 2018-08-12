@@ -22,8 +22,8 @@ void setup() {
   pinMode(BUILTIN_LED, OUTPUT);
   digitalWrite(BUILTIN_LED, HIGH);
 
-  pinMode(pins[2], OUTPUT);
-  digitalWrite(pins[2], 0);
+  pinMode(RELAY_PIN, OUTPUT);
+  digitalWrite(RELAY_PIN, LOW);
   Serial.print("state : " + state);
 
 
@@ -62,4 +62,5 @@ void setup() {
 }
 
 void loop() {
+  server.handleClient();
 }
