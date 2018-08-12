@@ -44,14 +44,12 @@ void setup() {
 
   server.on("/on", []() {
     Serial.println("POWER ON");
-    digitalWrite(BUILTIN_LED, HIGH);
     digitalWrite(RELAY_PIN, HIGH);
     server.send(200, "text/html", s);
   });
 
   server.on("/off", []() {
     Serial.println("POWER OFF");
-    digitalWrite(BUILTIN_LED, LOW);
     digitalWrite(RELAY_PIN, LOW);
     server.send(200, "text/html", s);
   });
