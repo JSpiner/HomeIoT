@@ -10,6 +10,8 @@ const char* SSID = "HotSpiner2G";
 const char* PASSWORD = "JSpinerJSpiner1";
 ESP8266WebServer server(80);
 
+void(* resetFunc) (void) = 0;
+
 void setupPin() {
   Serial.begin(115200);
   pinMode(BUILTIN_LED, OUTPUT);
@@ -83,4 +85,8 @@ void setup() {
 
 void loop() {
   server.handleClient();
+  if (WiFi.status() != WL_CONNECTED) {
+    delay(1000 * 10);
+    resetFunc();
+  }
 }
