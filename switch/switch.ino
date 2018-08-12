@@ -9,10 +9,6 @@ const char* ssid = "HotSpiner2G";
 const char* password = "JSpinerJSpiner1";
 ESP8266WebServer server(80);
 
-void handleRoot() {
-  server.send(200, "text/plain", "PST-BKZ-FL: ready");
-}
-
 void setupPin() {
   Serial.begin(115200);
   pinMode(BUILTIN_LED, OUTPUT);
@@ -22,9 +18,7 @@ void setupPin() {
   digitalWrite(RELAY_PIN, LOW);
 }
 
-void setup() {
-  setupPin();
-
+void setupServer() {
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -37,23 +31,39 @@ void setup() {
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 
-  server.on("/", handleRoot);
+  routeGetOn();
+  routeGetOff();
 
+  server.begin();
+  Serial.print("HTTP Server started");
+}
+
+void routeGetHealth() {
+  server.on("/health", []() {
+    Serial.println("health check");
+    server.send(200, "text/html", "ok");
+  });
+}
+
+void routeGetOn() {
   server.on("/on", []() {
     Serial.println("POWER ON");
     digitalWrite(RELAY_PIN, HIGH);
     server.send(200, "text/html", "ok");
   });
+}
 
+void routeGetOff() {
   server.on("/off", []() {
     Serial.println("POWER OFF");
     digitalWrite(RELAY_PIN, LOW);
     server.send(200, "text/html", "ok");
   });
+}
 
-  server.begin();
-  Serial.print("HTTP Server started");
-
+void setup() {
+  setupPin();
+  setupServer();
 }
 
 void loop() {
