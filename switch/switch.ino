@@ -3,10 +3,10 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 
-int RELAY_PIN = D2;
+const int RELAY_PIN = D2;
 
-const char* ssid = "HotSpiner2G";
-const char* password = "JSpinerJSpiner1";
+const char* SSID = "HotSpiner2G";
+const char* PASSWORD = "JSpinerJSpiner1";
 ESP8266WebServer server(80);
 
 void setupPin() {
@@ -19,7 +19,7 @@ void setupPin() {
 }
 
 void setupServer() {
-  WiFi.begin(ssid, password);
+  WiFi.begin(SSID, PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(WiFi.status());
@@ -27,7 +27,7 @@ void setupServer() {
 
   Serial.println("");
   Serial.print("Connected to ");
-  Serial.println(ssid);
+  Serial.println(SSID);
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 
