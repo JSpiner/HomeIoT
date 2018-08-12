@@ -2,6 +2,7 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
+#include <ESP8266HTTPClient.h>
 
 const int RELAY_PIN = D2;
 
@@ -30,12 +31,26 @@ void setupServer() {
   Serial.println(SSID);
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+  requestInit(WiFi.localIP().toString());
 
   routeGetOn();
   routeGetOff();
 
   server.begin();
   Serial.print("HTTP Server started");
+}
+
+void requestInit(String ipAddress) {
+  HTTPClient http;
+  http.begin("http://jsonplaceholder.typicode.com/users/1");
+  int httpCode = http.GET();
+  String result = http.getString();
+  Serial.print("status code : " );
+  Serial.println(httpCode);
+  Serial.print("result : " );
+  Serial.println(result);
+  Serial.println("end");
+  http.end();
 }
 
 void routeGetHealth() {
