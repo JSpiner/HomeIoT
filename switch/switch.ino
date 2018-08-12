@@ -8,9 +8,6 @@ int RELAY_PIN = D2;
 const char* ssid = "HotSpiner2G";
 const char* password = "JSpinerJSpiner1";
 ESP8266WebServer server(80);
-String s = "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"width=device-width, user-scalable=no\"></head><body><br><input type=\"button\" name=\"b1\" value=\"ON\" onclick=\"location.href='/on'\" style=\"width:100%;height:70px;font-weight:bold;font-size:1em\"><br/><input type=\"button\" name=\"b1\" value=\"OFF\" onclick=\"location.href='/off'\" style=\"width:100%;height:80px;font-weight:bold;font-size:1em\"></body></html>";
-
-int state = 0;
 
 void handleRoot() {
   server.send(200, "text/plain", "PST-BKZ-FL: ready");
@@ -45,13 +42,13 @@ void setup() {
   server.on("/on", []() {
     Serial.println("POWER ON");
     digitalWrite(RELAY_PIN, HIGH);
-    server.send(200, "text/html", s);
+    server.send(200, "text/html", "ok");
   });
 
   server.on("/off", []() {
     Serial.println("POWER OFF");
     digitalWrite(RELAY_PIN, LOW);
-    server.send(200, "text/html", s);
+    server.send(200, "text/html", "ok");
   });
 
   server.begin();
