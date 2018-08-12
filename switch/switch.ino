@@ -16,17 +16,17 @@ void handleRoot() {
   server.send(200, "text/plain", "PST-BKZ-FL: ready");
 }
 
-void setup() {
+void setupPin() {
   Serial.begin(115200);
-
   pinMode(BUILTIN_LED, OUTPUT);
   digitalWrite(BUILTIN_LED, LOW);
 
   pinMode(RELAY_PIN, OUTPUT);
   digitalWrite(RELAY_PIN, LOW);
-  Serial.print("state : " + state);
+}
 
-
+void setup() {
+  setupPin();
 
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
