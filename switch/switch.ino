@@ -5,12 +5,11 @@
 #include <ESP8266HTTPClient.h>
 
 const int RELAY_PIN = D2;
+const int RESET_PIN = D5;
 
 const char* SSID = "HotSpiner2G";
 const char* PASSWORD = "JSpinerJSpiner1";
 ESP8266WebServer server(80);
-
-void(* resetFunc) (void) = 0;
 
 void setupPin() {
   Serial.begin(115200);
@@ -19,6 +18,9 @@ void setupPin() {
 
   pinMode(RELAY_PIN, OUTPUT);
   digitalWrite(RELAY_PIN, LOW);
+
+  pinMode(RESET_PIN, OUTPUT);
+  digitalWrite(RESET_PIN, HIGH);
 }
 
 void setupServer() {
@@ -86,7 +88,8 @@ void setup() {
 void loop() {
   server.handleClient();
   if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("disconnected");
     delay(1000 * 10);
-    resetFunc();
+    digitalWrite(RESET_PIN, LOW);
   }
 }
