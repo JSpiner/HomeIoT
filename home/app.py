@@ -7,4 +7,4 @@ app = Flask(__name__)
 def routeGetRoot():
     return 'ok'
 
-app.run(debug=True)
+app.run(debug=True, host='0.0.0.0')
