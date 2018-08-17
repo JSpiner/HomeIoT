@@ -4,9 +4,13 @@
 #include <ESP8266mDNS.h>
 #include <ESP8266HTTPClient.h>
 
+const String DEVICE_TYPE = "switch";
+const String DEVICE_NAME = "working_room";
+
 const int RELAY_PIN = D2;
 const int RESET_PIN = D5;
 
+const String HOME_SERVER_URL = "http://172.30.1.11:5000/";
 const char* SSID = "HotSpiner2G";
 const char* PASSWORD = "JSpinerJSpiner1";
 ESP8266WebServer server(80);
@@ -46,7 +50,7 @@ void setupServer() {
 
 void requestInit(String ipAddress) {
   HTTPClient http;
-  http.begin("http://jsonplaceholder.typicode.com/users/1");
+  http.begin(HOME_SERVER_URL+"?ip="+ipAddress+"&type="+DEVICE_TYPE+"&name"+DEVICE_NAME);
   int httpCode = http.GET();
   String result = http.getString();
   Serial.print("status code : " );
